@@ -9,11 +9,12 @@
         android:layout_height="wrap_content"
         android:textColor="#fe000000"
         android:textSize="21sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="26dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="28dp"
         android:text="C语言达标题" />
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="20dp"
         android:id="@+id/recycler_view_task"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
