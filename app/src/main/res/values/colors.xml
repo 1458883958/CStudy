@@ -8,4 +8,6 @@
     <color name="viewpager_fragment_tab_current">#A0FF0000</color>
     <color name="viewpager_fragment_click_btn_normal">#A08080FF</color>
     <color name="viewpager_fragment_click_btn_pressed">#FF8080FF</color>
+    <color name="ggfx_dark_blue">#1D72F1</color>
+    <color name="red">#F22100</color>
 </resources>
