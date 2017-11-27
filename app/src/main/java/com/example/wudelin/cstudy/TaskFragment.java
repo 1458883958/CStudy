@@ -30,7 +30,7 @@ public class TaskFragment extends PageFragment{
             new Section(R.mipmap.r5,"第五章"),
             new Section(R.mipmap.r6,"第六章"),
             new Section(R.mipmap.r7,"第七章"),
-            new Section(R.mipmap.r8,"第八章")};;
+            new Section(R.mipmap.r8,"第八章")};
     private RecyclerView recyclerView;
     @Nullable
     @Override
