@@ -23,6 +23,7 @@
             android:layout_toRightOf="@id/icon_image"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
+            android:id="@+id/personal_username"
             android:text="你还未登录呢"/>
 
         <ImageView

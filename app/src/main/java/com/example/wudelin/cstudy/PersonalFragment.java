@@ -1,14 +1,19 @@
 package com.example.wudelin.cstudy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wudelin.cstudy.listviewadapter.Item;
@@ -33,6 +38,9 @@ public class PersonalFragment extends PageFragment{
     private ItemListViewAdapter listViewAdapter;
     private CircleImageView circleImageView;
     private RelativeLayout relativeLayout;
+    private TextView personal_username;
+    public static final String USERNAME = "username";
+    boolean isLogin;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +48,8 @@ public class PersonalFragment extends PageFragment{
         listView = mView.findViewById(R.id.personal_listview);
         circleImageView = mView.findViewById(R.id.icon_image);
         relativeLayout = mView.findViewById(R.id.lay_login);
+        personal_username = mView.findViewById(R.id.personal_username);
+
         inits();
         listViewAdapter = new ItemListViewAdapter(mView.getContext(),R.layout.personal_listview_item,itemList);
         listView.setAdapter(listViewAdapter);
@@ -54,6 +64,8 @@ public class PersonalFragment extends PageFragment{
                     case 2:
                         break;
                     case 3:
+                        Intent intent = new Intent(getContext(),PersonalSettingActivity.class);
+                        startActivity(intent);
                         break;
                     default:
                 }
@@ -68,11 +80,29 @@ public class PersonalFragment extends PageFragment{
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mView.getContext(),LoginActivity.class);
-                startActivity(intent);
+                if(isLogin) {
+                    Log.d("wdl", "onClick: "+"已登录");
+                }else{
+                    Intent intent = new Intent(mView.getContext(), LoginActivity.class);
+                    startActivity(intent);
+
+                }
             }
         });
         return mView;
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mView.getContext());
+        String username = prefs.getString(USERNAME,"");
+        isLogin = prefs.getBoolean("IS_LOGIN",false);
+        if(!TextUtils.isEmpty(username)&&isLogin){
+            personal_username.setText(username);
+        }else{
+            personal_username.setText("您还未登录");
+        }
+        super.onResume();
     }
 
     private void inits() {

@@ -22,7 +22,6 @@ public class MyApplication extends Application {
 
     // 记录是否已经初始化
     private boolean isInit = false;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,10 +31,6 @@ public class MyApplication extends Application {
         initEasemob();
     }
 
-
-    /**
-     *
-     */
     private void initEasemob() {
         // 获取当前进程 id 并取得进程名
         int pid = android.os.Process.myPid();
