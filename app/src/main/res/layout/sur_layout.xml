@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.example.wudelin.cstudy.draw.DrawGameView
+        android:id="@+id/surfa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dip"
+        android:orientation="horizontal"
+        android:padding="5dip" >
+
+        <Button
+            android:id="@+id/sclean"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_weight="1"
+            android:text="clean" />
+
+        <Button
+            android:id="@+id/scanle"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:text="cancel" />
+
+        <Button
+            android:id="@+id/hongse"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:text="选择颜色" />
+    </LinearLayout>
+
+
+</LinearLayout>

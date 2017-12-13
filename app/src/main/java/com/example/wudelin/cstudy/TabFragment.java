@@ -1,5 +1,6 @@
 package com.example.wudelin.cstudy;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -72,21 +73,41 @@ public class TabFragment extends Fragment{
         if (learnText != null && taskText != null && interactText != null && personalText!=null) {
             mCurrentTab = tab;
             learnText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_normal));
+            learnText.setCompoundDrawablesWithIntrinsicBounds(null,
+                    getResources().getDrawable(R.mipmap.tab_better_normal) , null, null);
+
             taskText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_normal));
+            taskText.setCompoundDrawablesWithIntrinsicBounds(null,
+                    getResources().getDrawable(R.mipmap.tab_channel_normal), null, null);
+
             interactText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_normal));
+            interactText.setCompoundDrawablesWithIntrinsicBounds(null,
+                    getResources().getDrawable(R.mipmap.tab_message_normal), null, null);
+
             personalText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_normal));
+            personalText.setCompoundDrawablesWithIntrinsicBounds(null,
+                    getResources().getDrawable(R.mipmap.tab_my_normal), null, null);
+            Drawable top;
             switch (tab) {
                 case 0:
                     learnText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_current));
+                    top = getResources().getDrawable(R.mipmap.tab_better_pressed);
+                    learnText.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
                     break;
                 case 1:
                     taskText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_current));
+                    top = getResources().getDrawable(R.mipmap.tab_channel_pressed);
+                    taskText.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
                     break;
                 case 2:
                     interactText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_current));
+                    top = getResources().getDrawable(R.mipmap.tab_message_pressed);
+                    interactText.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
                     break;
                 case 3:
                     personalText.setTextColor(getResources().getColor(R.color.viewpager_fragment_tab_current));
+                    top = getResources().getDrawable(R.mipmap.tab_my_pressed);
+                    personalText.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
                     break;
                 default:
                     break;

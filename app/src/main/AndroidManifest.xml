@@ -76,6 +76,8 @@
         <activity android:name=".DetailLearnActivity"/>
         <activity android:name=".RegActivity"/>
         <activity android:name=".PersonalSettingActivity"/>
+        <activity android:name=".MakeNoteActivity"/>
+        <activity android:name=".draw.YouDrawIGuessActivity"/>
     </application>
 
 </manifest>

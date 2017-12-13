@@ -1,8 +1,12 @@
 package com.example.wudelin.cstudy;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -14,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.wudelin.cstudy.draw.NetWorkMessage;
+import com.example.wudelin.cstudy.draw.YouDrawIGuessActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
@@ -35,6 +41,7 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
     private View mView;
     private EditText inputText;
     private Button sendBtn;
+    private  Button takeIn;
     private String roomId = "34053888737282";
     private EMConversation conversation;
     // 显示内容的 TextView
@@ -49,19 +56,28 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.viewpage_fragment_interact, container, false);
         initView();
-        mMessageListener = this;
+
         joinRoom();
         initConversation();
         return mView;
     }
-
     private void initView() {
+        mMessageListener = this;
         inputText = mView.findViewById(R.id.input_text);
         sendBtn = mView.findViewById(R.id.send_btn);
         mContentText = mView.findViewById(R.id.content_view_interact);
+        takeIn = mView.findViewById(R.id.take_in);
         // 设置textview可滚动，需配合xml布局设置
         mContentText.setMovementMethod(new ScrollingMovementMethod());
 
+        takeIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NetWorkMessage.get_instaance().createNetWork();
+                NetWorkMessage.get_instaance().receiveDrawNetWork();
+                startActivity(new Intent().setClass(getActivity(), YouDrawIGuessActivity.class));
+            }
+        });
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +88,7 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
                     EMMessage message = EMMessage.createTxtSendMessage(content, roomId);
                     // 将新的消息内容和时间加入到下边
                     mContentText.setText(mContentText.getText() + "\n发送：" + content + " - time: " + message.getMsgTime());
+                    message.setChatType(EMMessage.ChatType.GroupChat);
                     // 调用发送消息的方法
                     EMClient.getInstance().chatManager().sendMessage(message);
                     // 为消息设置回调
@@ -129,6 +146,7 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
     /**
      * 自定义实现Handler，主要用于刷新UI操作
      */
+    @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -172,7 +190,7 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
             if (message.getFrom().equals(roomId)) {
                 // 设置消息为已读
                 mConversation.markMessageAsRead(message.getMsgId());
-
+                Log.d("wdl", "onMessageReceived: ");
                 // 因为消息监听回调这里是非ui线程，所以要用handler去更新ui
                 Message msg = mHandler.obtainMessage();
                 msg.what = 0;

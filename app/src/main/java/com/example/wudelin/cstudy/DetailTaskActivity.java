@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +47,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     private int position;
     private ImageView imageView;
     private LMenu menu;
+    private FloatingActionButton fabNote;
     //问题题目
     private TextView textView;
     //输入答案的编辑框
@@ -84,6 +86,14 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         textView = findViewById(R.id.task_content_view);
         editText = findViewById(R.id.et_input);
         menu = findViewById(R.id.lMenu);
+        fabNote = findViewById(R.id.make_note);
+        fabNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                  Intent intent = new Intent(DetailTaskActivity.this,MakeNoteActivity.class);
+                  startActivity(intent);
+            }
+        });
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

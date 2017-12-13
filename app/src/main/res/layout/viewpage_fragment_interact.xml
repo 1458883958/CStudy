@@ -9,6 +9,12 @@
         android:id="@+id/content_view_interact"
         android:scrollbars="vertical"
         android:background="#1a000000"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Draw"
+        android:id="@+id/take_in"
+        android:textAllCaps="false"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -13,4 +13,5 @@ public class PageFragment extends Fragment {
     public void onPageOut(){
 
     }
+
 }
