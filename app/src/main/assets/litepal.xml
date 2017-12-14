@@ -33,6 +33,7 @@
     -->
     <list>
         <mapping class="com.example.wudelin.cstudy.db.Content"/>
+        <mapping class="com.example.wudelin.cstudy.db.Diary"/>
     </list>
 
     <!--

@@ -58,6 +58,8 @@ public class PersonalFragment extends PageFragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch (position){
                     case 0:
+                        Intent intent1 = new Intent(getContext(),NoteListActivity.class);
+                        startActivity(intent1);
                         break;
                     case 1:
                         break;
