@@ -6,7 +6,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/wudelin/cstudy/draw/DrawGameView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/wudelin/cstudy/draw/DrawStep.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/wudelin/cstudy/draw/NetWorkMessage.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/wudelin/cstudy/draw/YouDrawIGuessActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/wudelin/cstudy/draw/YouDrawIGuessActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/sur_layout.xml" charset="GBK" />
   </component>
 </project>

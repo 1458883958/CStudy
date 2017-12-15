@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.wudelin.cstudy.application.MyApplication;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 /**
  * Created by wudelin on 2017/11/27.
@@ -66,7 +67,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!isLogin) {
                     signIn();
+                    EMClient.getInstance().groupManager().loadAllGroups();
+                    EMClient.getInstance().chatManager().loadAllConversations();
                 } else {
+                    EMClient.getInstance().groupManager().loadAllGroups();
+                    EMClient.getInstance().chatManager().loadAllConversations();
                     finish();
                 }
             }
@@ -82,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                         prefs.putString(PersonalFragment.USERNAME, loginEdUsername.getText().toString().trim());
                         prefs.putBoolean("IS_LOGIN",true);
+                        prefs.putString("USERNAME",loginEdUsername.getText().toString().trim());
                         prefs.apply();
                         runOnUiThread(new Runnable() {
                             @Override
@@ -104,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
         );
     }
+
 
     //返回键的监听事件
     @Override

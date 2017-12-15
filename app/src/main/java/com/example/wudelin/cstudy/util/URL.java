@@ -8,10 +8,7 @@ public class URL {
     //服务器ip
     private static final String HTTP_URL = "http://114.67.224.207:8080/Okhttp/";
 
-
     //获取章节内容
-    //public static final String HTTP_URL_CONTENT = HTTP_URL+"contain.json";
-
     public static final String HTTP_URL_CONTENT = HTTP_URL+"Req_c?l_name=";
     //public static final String u = "http://114.67.224.207:8080/Okhttp/Upda_i?username=";
 
@@ -26,4 +23,11 @@ public class URL {
 
     //获取视频
     public static final String HTTP_URL_VEDIO = "http://114.67.224.207:8080/Vedio/3_";
+
+    //注册
+    public static final String HTTP_URL_REG = HTTP_URL+"Reg?";
+
+    //更新分数和查询分数
+    public static final String HTTP_URL_UPD_SCORE = HTTP_URL+"Upd_score?username=";
+    public static final String HTTP_URL_REQ_SCORE = HTTP_URL+"Req_score?username=";
 }

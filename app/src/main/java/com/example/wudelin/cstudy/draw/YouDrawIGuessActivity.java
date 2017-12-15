@@ -1,23 +1,19 @@
 package com.example.wudelin.cstudy.draw;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -30,43 +26,34 @@ public class YouDrawIGuessActivity extends Activity {
     private static DrawGameView drawGameView;
 
     private int whichColor = 0;
-    private SurfaceView surfaceView;
     DisplayMetrics dm = new DisplayMetrics();
     int screenW;
     int screenH;
-    private final static int RESULT = 0;
-    // ª≠≤º
-    private Canvas canvas;
-    // Àı∑≈∫ÛµƒÕº∆¨
-    private Bitmap bitmap;
-    private Paint paint;
-    // Àı∑≈∫ÛµƒÕº∆¨∏±±æ
-    private Bitmap copyBitmap;
     private Button clean, scanle, hongse;
-    //private ImageView imageView;
-
     public YouDrawIGuessActivity() {
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.sur_layout);
-
-        NetWorkMessage.get_instaance().setActivity(this);
-        drawGameView = this.findViewById(R.id.surfa);
-
+        NetWorkMessage.get_instaance().setActivity(YouDrawIGuessActivity.this);
+        drawGameView = findViewById(R.id.surfa);
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenW = dm.widthPixels;
         screenH = dm.heightPixels;
-        clean = this.findViewById(R.id.sclean);
-        hongse =  this.findViewById(R.id.hongse);
-        scanle =  this.findViewById(R.id.scanle);
-        surfaceView =  this.findViewById(R.id.surfa);
-        //imageView = (ImageView) this.findViewById(R.id.im);
+        clean = findViewById(R.id.sclean);
+        hongse =  findViewById(R.id.hongse);
+        scanle =  findViewById(R.id.scanle);
 
+        /*Toolbar toolbar = findViewById(R.id.toolbar_xml);
+        setSupportActionBar(toolbar);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setTitle("Draw");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }*/
         scanle.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -95,34 +82,34 @@ public class YouDrawIGuessActivity extends Activity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 final Paint paint = drawGameView.getThread().getPaint();
-                Dialog mDialog = new AlertDialog.Builder(YouDrawIGuessActivity.this).setTitle("—’…´…Ë÷√")
-                        .setSingleChoiceItems(new String[]{"∫Ï…´", "¬Ã…´", "¿∂…´"}, whichColor,
+                Dialog mDialog = new AlertDialog.Builder(YouDrawIGuessActivity.this).setTitle("È¢úËâ≤ËÆæÁΩÆ")
+                        .setSingleChoiceItems(new String[]{"Á∫¢Ëâ≤", "ÁªøËâ≤", "ËìùËâ≤"}, whichColor,
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         // TODO Auto-generated method stub
                                         switch (which) {
                                             case 0: {
-                                                // ª≠± µƒ—’…´
+                                                // ÁîªÁ¨îÁöÑÈ¢úËâ≤
                                                 paint.setColor(Color.RED);
                                                 whichColor = 0;
                                                 break;
                                             }
                                             case 1: {
-                                                // ª≠± µƒ—’…´
+                                                // ÁîªÁ¨îÁöÑÈ¢úËâ≤
                                                 paint.setColor(Color.GREEN);
                                                 whichColor = 1;
                                                 break;
                                             }
                                             case 2: {
-                                                // ª≠± µƒ—’…´106
+                                                // ÁîªÁ¨îÁöÑÈ¢úËâ≤106
                                                 paint.setColor(Color.BLUE);
                                                 whichColor = 2;
                                                 break;
                                             }
                                         }
                                     }
-                                }).setPositiveButton("»∑∂®", new DialogInterface.OnClickListener() {
+                                }).setPositiveButton("Á°ÆÂÆö", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO Auto-generated method stub
@@ -134,11 +121,10 @@ public class YouDrawIGuessActivity extends Activity {
 
         });
         drawGameView.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                //Log.d("wdl", "onTouch: ");
                 if (NetWorkMessage.get_instaance().isDrawer()) {
-                    // if (true) {
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
                         case MotionEvent.ACTION_DOWN:
                             addStep(DrawStep.MoveTo, (int) (event.getX() / screenW * 10000),
@@ -167,9 +153,29 @@ public class YouDrawIGuessActivity extends Activity {
         step.setType(type);
         step.setxP(xp);
         step.setyP(yp);
-
         NetWorkMessage.get_instaance().sendDrawMsgToServer(step);
         addOneStep(step);
+    }
+
+    //ËøîÂõûÈîÆÁöÑÁõëÂê¨‰∫ã‰ª∂
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NetWorkMessage.get_instaance().createNetWork();
+        NetWorkMessage.get_instaance().receiveDrawNetWork();
+        Log.d("wdl", "onResume: cheng");
     }
 
     public void addOneStep(DrawStep step) {

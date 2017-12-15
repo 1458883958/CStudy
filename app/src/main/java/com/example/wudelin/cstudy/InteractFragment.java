@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wudelin.cstudy.draw.NetWorkMessage;
 import com.example.wudelin.cstudy.draw.YouDrawIGuessActivity;
@@ -27,6 +28,7 @@ import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.exceptions.HyphenateException;
@@ -50,13 +52,12 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
     private EMMessageListener mMessageListener;
     // 当前会话对象
     private EMConversation mConversation;
-
+    private Boolean isLogin;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.viewpage_fragment_interact, container, false);
         initView();
-
         joinRoom();
         initConversation();
         return mView;
@@ -73,8 +74,6 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
         takeIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NetWorkMessage.get_instaance().createNetWork();
-                NetWorkMessage.get_instaance().receiveDrawNetWork();
                 startActivity(new Intent().setClass(getActivity(), YouDrawIGuessActivity.class));
             }
         });
@@ -82,7 +81,7 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
             @Override
             public void onClick(View view) {
                 String content = inputText.getText().toString().trim();
-                if (!TextUtils.isEmpty(content)) {
+                if (!TextUtils.isEmpty(content)&&isLogin) {
                     inputText.setText("");
                     // 创建一条新消息，第一个参数为消息内容，第二个为接受者username
                     EMMessage message = EMMessage.createTxtSendMessage(content, roomId);
@@ -110,9 +109,19 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
                             // 消息发送进度，一般只有在发送图片和文件等消息才会有回调，txt不回调
                         }
                     });
+                }else{
+                    Toast.makeText(mView.getContext(),"您未登录,请前往登录",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+    private void joinRoom() {
+        try {
+            EMClient.getInstance().groupManager().joinGroup(roomId);//需异步处理
+            Log.d("wdl", "joinRoom: " + "成功");
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * 初始化会话对象，并且根据需要加载更多消息
@@ -163,9 +172,18 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
     };
     @Override
     public void onResume() {
+        isLogin = PreferenceManager.getDefaultSharedPreferences(
+                mView.getContext()).getBoolean("IS_LOGIN",false);
         super.onResume();
         // 添加消息监听
         EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -174,14 +192,7 @@ public class InteractFragment extends PageFragment implements EMMessageListener 
         // 移除消息监听
         EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
     }
-    private void joinRoom() {
-        try {
-            EMClient.getInstance().groupManager().joinGroup(roomId);//需异步处理
-            Log.d("wdl", "joinRoom: " + "成功");
-        } catch (HyphenateException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @Override
     public void onMessageReceived(List<EMMessage> list) {

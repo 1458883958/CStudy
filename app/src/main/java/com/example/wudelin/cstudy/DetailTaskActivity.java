@@ -2,10 +2,12 @@ package com.example.wudelin.cstudy;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -48,6 +50,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     private ImageView imageView;
     private LMenu menu;
     private FloatingActionButton fabNote;
+    private int count;
     //问题题目
     private TextView textView;
     //输入答案的编辑框
@@ -77,6 +80,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_detail);
+        count = 0;
         Intent intent = getIntent();
         taskName = intent.getStringExtra(TASK_NAME);
         taskImageId = intent.getIntExtra(TASK_IMAGE_ID, 0);
@@ -145,6 +149,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
                 String answer = getMyAnswerStr();
                 if (!TextUtils.isEmpty(responseText)) {
                     if (answer.contains(responseText)) {
+                        count++;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -168,6 +173,17 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         mSpansManager.setLastCheckedSpanText(editText.getText().toString());
         return mSpansManager.getMyAnswer().toString();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor spf = PreferenceManager.
+                getDefaultSharedPreferences(getApplicationContext()).edit();
+        spf.putInt("SCORE", count * 2);
+        spf.apply();
+        count = 0;
+    }
+
 
     //填空题点击响应事件
     @Override
@@ -193,6 +209,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         HttpUtil.sendOkHttpRequest(httpUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.d("wdl", "onFailure: "+e.getMessage());
                 warn();
             }
 
@@ -227,6 +244,21 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                SharedPreferences pref = PreferenceManager.
+                        getDefaultSharedPreferences(DetailTaskActivity.this);
+                String name = pref.getString("USERNAME","");
+                Log.d("wdl", "onOptionsItemSelected: "+name);
+                String url = URL.HTTP_URL_UPD_SCORE+name+"&sco="+count*2;
+                HttpUtil.sendOkHttpRequest(url, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d("wdl", "onResponse: 更新分数失败");
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Log.d("wdl", "onResponse: 更新分数成功");
+                    }
+                });
                 finish();
                 break;
             default:

@@ -2,6 +2,8 @@ package com.example.wudelin.cstudy.draw;
 
 
 
+import android.util.Log;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -14,9 +16,6 @@ public class NetWorkMessage {
     public boolean isDraw;
     private YouDrawIGuessActivity activity;
 
-    public YouDrawIGuessActivity getActivity() {
-        return activity;
-    }
 
     public void setActivity(YouDrawIGuessActivity activity) {
         this.activity = activity;
@@ -32,6 +31,7 @@ public class NetWorkMessage {
     public void sendDrawMsgToServer(DrawStep drawStep) {
         try {
 
+            Log.d("wdl", "sendDrawMsgToServer: ");
             DataOutputStream outputStream = new DataOutputStream(scoket.getOutputStream());
             int len = 10;
             ByteArray data = new ByteArray();
@@ -98,7 +98,6 @@ public class NetWorkMessage {
 
         try {
             DataInputStream inputStream = new DataInputStream(scoket.getInputStream());
-            scoket.setSoTimeout(10000);
             if (inputStream.available() != 0) {
                 int len = inputStream.readInt();
                 byte[] buffer = new byte[len];

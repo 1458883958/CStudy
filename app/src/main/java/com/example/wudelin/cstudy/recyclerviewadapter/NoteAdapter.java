@@ -7,11 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wudelin.cstudy.LookNoteActivity;
 import com.example.wudelin.cstudy.R;
+import com.example.wudelin.cstudy.db.Diary;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
@@ -19,40 +21,56 @@ import java.util.List;
  * Created by wudelin on 2017/12/14.
  */
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     private List<Note> mListNote;
     private Context mContext;
+
+    public interface OnItemOnClickListener {
+        void onItemOnClick(View view, int pos);
+
+        void onItemLongOnClick(View view, int pos);
+    }
+
+    private OnItemOnClickListener mOnItemOnClickListener;
+
+    public void setmOnItemOnClickListener(OnItemOnClickListener mOnItemOnClickListener) {
+        this.mOnItemOnClickListener = mOnItemOnClickListener;
+    }
 
     public NoteAdapter(List<Note> mListNote) {
         this.mListNote = mListNote;
     }
 
+    public void removeItem(int pos){
+        DataSupport.deleteAll(Diary.class,"date = ?",mListNote.get(pos).getDate().toString());
+        mListNote.remove(pos);
+        notifyItemRemoved(pos);
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if(mContext==null)
+        if (mContext == null)
             mContext = parent.getContext();
-        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_view_note_item,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_view_note_item, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = viewHolder.getAdapterPosition();
-                Note note = mListNote.get(position);
-                Intent intent = new Intent(mContext, LookNoteActivity.class);
-                intent.putExtra(LookNoteActivity.DIARY_DATE,note.getDate());
-                intent.putExtra(LookNoteActivity.DIARY_TITLE,note.getTitle());
-                intent.putExtra(LookNoteActivity.DIARY_CONTENT,note.getContent());
-                mContext.startActivity(intent);
-            }
-        });
-        viewHolder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                return true;
-            }
-        });
+        if (mOnItemOnClickListener != null) {
+            viewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = viewHolder.getAdapterPosition();
+                    mOnItemOnClickListener.onItemOnClick(view, position);
+                }
+            });
+            viewHolder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int position = viewHolder.getAdapterPosition();
+                    mOnItemOnClickListener.onItemLongOnClick(view, position);
+                    return true;
+                }
+            });
+        }
         return viewHolder;
     }
 
@@ -68,7 +86,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         return mListNote.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView noteDate;
         TextView noteTitle;
         CardView mCardView;

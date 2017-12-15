@@ -30,9 +30,9 @@ public class LearnFragment extends PageFragment {
     private RecyclerView recyclerView;
     private LearnAdapter learnAdapter;
     private int[] learnImgs = {R.mipmap.l1,R.mipmap.l2,R.mipmap.l3,R.mipmap.l4,R.mipmap.l5,R.mipmap.l7,R.mipmap.l8};
-    private String[] learnTitle =  {"二维数组","指针","函数","结构体","字符串","逻辑思维","循环语句","链表"};
+    private String[] learnTitle =  {"基础","逻辑思维","循环语句","函数","数组","指针·链表","结构体"};
 
-    private String[] learnTime = {"3分30秒","7分35秒","8分40秒","15分35秒","9分25秒","6分35秒","9分55秒","9分35秒"};
+    private String[] learnTime = {"3分28秒","1分56秒","3分24秒","3分46秒","3分13秒","9分19秒","2分06秒"};
 
     private LinearLayoutManager layoutManager;
     private View mView;

@@ -98,10 +98,6 @@ public class DrawGameView extends SurfaceView implements SurfaceHolder.Callback 
 		public Paint getPaint() {
 			return paint;
 		}
-		/*public Canvas getCanvas() {
-			return canvas;
-		}*/
-
 		@Override
 		public void run() {
 			super.run();

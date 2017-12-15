@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <include layout="@layout/toolbar"/>
     <com.example.wudelin.cstudy.draw.DrawGameView
         android:id="@+id/surfa"
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:layout_weight="1"
+            android:textAllCaps="false"
             android:text="clean" />
 
         <Button
@@ -30,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#fff"
+            android:textAllCaps="false"
             android:text="cancel" />
 
         <Button
@@ -37,6 +40,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+
             android:background="#fff"
             android:text="选择颜色" />
     </LinearLayout>

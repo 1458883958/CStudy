@@ -12,9 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.wudelin.cstudy.util.HttpUtil;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+import static com.example.wudelin.cstudy.util.URL.HTTP_URL_REG;
 
 /**
  * Created by wudelin on 2017/11/27.
@@ -47,9 +56,19 @@ public class RegActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
+                            String url = HTTP_URL_REG+"username="+edRegUsername.getText().toString()+"&password="+edRegPassword.getText().toString().trim();
                             EMClient.getInstance().createAccount(edRegUsername.getText().toString().trim(),
                                     edRegPassword.getText().toString().trim());
-                            Log.d("wdl", "注册成功");
+                            HttpUtil.sendOkHttpRequest(url, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+
+                                }
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    Log.d("wdl", "注册成功");
+                                }
+                            });
                             finish();
                         } catch (final HyphenateException e) {
                             runOnUiThread(new Runnable() {

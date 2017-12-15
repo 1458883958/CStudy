@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#f8000000"
-            android:textSize="23sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/recycler_learn_time"
