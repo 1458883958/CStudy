@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chapter:"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#8000"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@id/ChartProgressBar"/>
+    <com.hadiidbouk.charts.ChartProgressBar
+        android:id="@+id/ChartProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        app:hdBarCanBeClick="true"
+        app:hdBarHeight="170dp"
+        app:hdBarWidth="7dp"
+        app:hdBarRadius="10dp"
+        app:hdMaxValue="10"
+        app:hdEmptyColor="@color/empty"
+        app:hdProgressColor="@color/progress"
+        app:hdProgressClickColor="@color/progress_click"
+        app:hdPinBackgroundColor="@color/pin_background"
+        app:hdPinTextColor="@color/pin_text"
+        app:hdPinPaddingBottom="5dp"
+        app:hdBarTitleColor="@color/bar_title_color"
+        app:hdBarTitleTxtSize="12sp"
+        app:hdPinTxtSize="17sp"
+        app:hdPinMarginTop="10dp"
+        app:hdPinMarginBottom="55dp"
+        app:hdPinMarginEnd="22dp"
+        app:hdBarTitleMarginTop="9dp"
+        app:hdPinDrawable="@drawable/ic_pin"
+        app:hdProgressDisableColor="@color/progress_disable"
+        app:hdBarTitleSelectedColor="#eaa"/>
+
+</RelativeLayout>

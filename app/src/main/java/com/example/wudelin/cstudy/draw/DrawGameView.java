@@ -45,12 +45,12 @@ public class DrawGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 
 		if (!isInEditMode()) {
-			// Ôì³É´íÎóµÄ´úÂë¶Î
-			setZOrderOnTop(true);// Ê¹surfaceview·Åµ½×î¶¥²ã
+			// é€ æˆé”™è¯¯çš„ä»£ç æ®µ
+			setZOrderOnTop(true);// ä½¿surfaceviewæ”¾åˆ°æœ€é¡¶å±‚
 		}
 
 		//setZOrderMediaOverlay(true);
-		holder.setFormat(PixelFormat.TRANSLUCENT);// Ê¹´°¿ÚÖ§³ÖÍ¸Ã÷¶È
+		holder.setFormat(PixelFormat.TRANSLUCENT);// ä½¿çª—å£æ”¯æŒé€æ˜åº¦
 		holder.addCallback(this);
 	}
 
@@ -118,8 +118,8 @@ public class DrawGameView extends SurfaceView implements SurfaceHolder.Callback 
 		public void draw() {
 			Canvas canvas=null;
 			try {
-				canvas = holder.lockCanvas();// ËøÕû¸ö»­²¼
-				canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);// »æÖÆÍ¸Ã÷É«
+				canvas = holder.lockCanvas();// é”æ•´ä¸ªç”»å¸ƒ
+				canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);// ç»˜åˆ¶é€æ˜è‰²
 				if (canvas != null) {
 					while (steps.size() > 0) {
 						DrawStep step = steps.remove(0);
@@ -139,7 +139,7 @@ public class DrawGameView extends SurfaceView implements SurfaceHolder.Callback 
 						canvas.drawPath(paths.get(i), paint);
 					}
 					canvas.drawPath(path, paint);
-					holder.unlockCanvasAndPost(canvas);//// ½â³ıËø¶¨£¬²¢Ìá½»ĞŞ¸ÄÄÚÈİ
+					holder.unlockCanvasAndPost(canvas);//// è§£é™¤é”å®šï¼Œå¹¶æäº¤ä¿®æ”¹å†…å®¹
 				}
 			} catch (Exception e) {
 			}

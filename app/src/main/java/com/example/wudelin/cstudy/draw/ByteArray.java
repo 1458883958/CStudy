@@ -35,25 +35,25 @@ public class ByteArray {
      */
     static final public byte LONG_SIZE = 8;
     /**
-     * µ±Ç°Î»ÖÃ
+     * å½“å‰ä½ç½®
      */
     private int currentPos = 0;
     /**
-     * byteÊı×éÊı¾İ
+     * byteæ•°ç»„æ•°æ®
      */
     private byte[] data;
 
     /**
-     * Ä¬ÈÏ´óĞ¡¹¹Ôì
+     * é»˜è®¤å¤§å°æ„é€ 
      */
     public ByteArray() {
         this(DEFAULT_SIZE);
     }
 
     /**
-     * Ö¸¶¨´óĞ¡¹¹Ôì
+     * æŒ‡å®šå¤§å°æ„é€ 
      *
-     * @param size Ö¸¶¨µÄ´óĞ¡
+     * @param size æŒ‡å®šçš„å¤§å°
      */
     public ByteArray(int size) {
         data = new byte[size];
@@ -61,9 +61,9 @@ public class ByteArray {
     }
 
     /**
-     * Ö¸¶¨Êı¾İ¹¹Ôì
+     * æŒ‡å®šæ•°æ®æ„é€ 
      *
-     * @param src Ö¸¶¨µÄÊı¾İÔ´
+     * @param src æŒ‡å®šçš„æ•°æ®æº
      */
     public ByteArray(byte[] src) {
         data = src;
@@ -369,7 +369,7 @@ public class ByteArray {
     }
 
     /**
-     * ¼ì²âdataÊı×éÊÇ·ñ×ã¹»³¤
+     * æ£€æµ‹dataæ•°ç»„æ˜¯å¦è¶³å¤Ÿé•¿
      *
      * @param length int
      */
@@ -530,7 +530,7 @@ public class ByteArray {
     }
 
     /**
-     * µÃµ½×Ö½ÚÊı×é
+     * å¾—åˆ°å­—èŠ‚æ•°ç»„
      *
      * @return byte[]
      */
@@ -541,7 +541,7 @@ public class ByteArray {
     }
 
     /**
-     * ×·¼ÓbyteÊı×é
+     * è¿½åŠ byteæ•°ç»„
      *
      * @param data
      */

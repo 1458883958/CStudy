@@ -83,6 +83,7 @@ public class PersonalFragment extends PageFragment{
                         startActivity(intent1);
                         break;
                     case 1:
+                        showProgress();
                         break;
                     case 2:
                         showScoreDialog();
@@ -115,6 +116,11 @@ public class PersonalFragment extends PageFragment{
             }
         });
         return mView;
+    }
+
+    private void showProgress() {
+        Intent intent = new Intent(getContext(),LearnProgressActivity.class);
+        startActivity(intent);
     }
 
     private void showScoreDialog() {
