@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/swipe_refresh"
+    android:layout_height="match_parent">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,6 +22,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="30dp"
         android:layout_above="@id/ChartProgressBar"/>
+
     <com.hadiidbouk.charts.ChartProgressBar
         android:id="@+id/ChartProgressBar"
         android:layout_width="match_parent"
@@ -27,7 +33,7 @@
         app:hdBarHeight="170dp"
         app:hdBarWidth="7dp"
         app:hdBarRadius="10dp"
-        app:hdMaxValue="10"
+        app:hdMaxValue="100"
         app:hdEmptyColor="@color/empty"
         app:hdProgressColor="@color/progress"
         app:hdProgressClickColor="@color/progress_click"
@@ -46,3 +52,4 @@
         app:hdBarTitleSelectedColor="#eaa"/>
 
 </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

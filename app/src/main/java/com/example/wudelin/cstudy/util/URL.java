@@ -30,4 +30,8 @@ public class URL {
     //更新分数和查询分数
     public static final String HTTP_URL_UPD_SCORE = HTTP_URL+"Upd_score?username=";
     public static final String HTTP_URL_REQ_SCORE = HTTP_URL+"Req_score?username=";
+
+    //更新进度和查询进度
+    public static final String HTTP_URL_UPD_PRO = HTTP_URL+"Upda_i?username=";
+    public static final String HTTP_URL_REQ_PRO = HTTP_URL+"Req_i?username=";
 }

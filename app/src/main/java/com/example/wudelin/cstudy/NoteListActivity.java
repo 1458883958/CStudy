@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -34,7 +35,7 @@ public class NoteListActivity extends AppCompatActivity {
     private List<Diary> mDiaryList;
     private NoteAdapter noteAdapter;
     private RecyclerView recyclerView;
-
+    private SearchView searchView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +47,22 @@ public class NoteListActivity extends AppCompatActivity {
             actionBar.setTitle("笔记");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        inits();
+        searchView = findViewById(R.id.search_text);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return true;
+            }
+        });
         recyclerView = findViewById(R.id.recycler_view_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        inits();
         noteAdapter = new NoteAdapter(mNoteList);
         noteAdapter.setmOnItemOnClickListener(new NoteAdapter.OnItemOnClickListener() {
             @Override

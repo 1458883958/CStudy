@@ -1,11 +1,14 @@
 package com.example.wudelin.cstudy;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,7 +20,6 @@ import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -54,32 +56,34 @@ import okhttp3.Response;
 
 public class DetailLearnActivity extends AppCompatActivity {
 
-
-    private List<Content> contentList;
+   // private List<Content> contentList;
     private TextView exo_video_dialog_pro_text;
     private ManualPlayer exoPlayerManager;
     private VideoPlayerView videoPlayerView;
     private ImageView videoAudioImg, videoBrightnessImg;
     private long currPosition = 0;
     private ProgressDialog progressDialog;
+    private int time = 0;
     /***显示音频和亮度***/
     private ProgressBar videoAudioPro, videoBrightnessPro;
     public static final String VIEW_NAME_HEADER_IMAGE = "123";
     private boolean isEnd;
     public int position;
     private TextView tvContent;
+    private int[] totalTime;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.learn_detail);
+        initTime();
         Intent intent = getIntent();
-        position = intent.getIntExtra("position",0);
-        videoPlayerView =  findViewById(R.id.exo_play_context_id);
-        exo_video_dialog_pro_text =  findViewById(R.id.exo_video_dialog_pro_text);
-        videoAudioImg =  findViewById(R.id.exo_video_audio_img);
-        videoAudioPro =  findViewById(R.id.exo_video_audio_pro);
-        videoBrightnessImg =  findViewById(R.id.exo_video_brightness_img);
-        videoBrightnessPro =  findViewById(R.id.exo_video_brightness_pro);
+        position = intent.getIntExtra("position", 0);
+        videoPlayerView = findViewById(R.id.exo_play_context_id);
+        exo_video_dialog_pro_text = findViewById(R.id.exo_video_dialog_pro_text);
+        videoAudioImg = findViewById(R.id.exo_video_audio_img);
+        videoAudioPro = findViewById(R.id.exo_video_audio_pro);
+        videoBrightnessImg = findViewById(R.id.exo_video_brightness_img);
+        videoBrightnessPro = findViewById(R.id.exo_video_brightness_pro);
         tvContent = findViewById(R.id.learn_content);
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         ViewCompat.setTransitionName(videoPlayerView, VIEW_NAME_HEADER_IMAGE);
@@ -88,18 +92,18 @@ public class DetailLearnActivity extends AppCompatActivity {
         exoPlayerManager.setTitle("返回");
         //设置加载显示模式
         exoPlayerManager.setLoadModel(LoadModelType.SPEED);
-        exoPlayerManager.setPlayUri(URL.HTTP_URL_VEDIO+position+".mp4");
-        //Log.d("wdl", "url"+URL.HTTP_URL_VEDIO+position+".mp4");
+        exoPlayerManager.setPlayUri(URL.HTTP_URL_VEDIO + position + ".mp4");
         exoPlayerManager.setOnPlayClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(DetailLearnActivity.this, "", Toast.LENGTH_LONG).show();
                 //处理业务操作 完成后，
                 exoPlayerManager.startPlayer();//开始播放
+
             }
         });
         Glide.with(this)
-                .load(intent.getIntExtra("imageView",0))
+                .load(intent.getIntExtra("imageView", 0))
                 .into(videoPlayerView.getPreviewImage());
 
         //自定义布局使用
@@ -157,23 +161,17 @@ public class DetailLearnActivity extends AppCompatActivity {
 
     }
 
-    /*private void queryContent() {
-        contentList = DataSupport.findAll(Content.class);
-        if(contentList.size()>0) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvContent.setText(contentList.get(position).getContent());
-                }
-            });
-        }else{
-            getLearnContent();
-        }
-    }*/
+    private void initTime() {
+        totalTime = new int[7];
+        totalTime[0] = 208;totalTime[1] = 116;
+        totalTime[2] = 204;totalTime[3] = 226;
+        totalTime[4] = 193;totalTime[5] = 559;
+        totalTime[6] = 126;
+    }
 
     private void getLearnContent() {
         showProgressDialog();
-        String address = URL.HTTP_URL_CONTENT+position;
+        String address = URL.HTTP_URL_CONTENT + position;
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -190,15 +188,15 @@ public class DetailLearnActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
                 boolean result = false;
-                if(!TextUtils.isEmpty(responseText)){
-                    result=true;
+                if (!TextUtils.isEmpty(responseText)) {
+                    result = true;
                     final Spanned responseString;
                     if (android.os.Build.VERSION.SDK_INT >= 25) {
-                        responseString = Html.fromHtml(responseText,Html.FROM_HTML_MODE_LEGACY);
+                        responseString = Html.fromHtml(responseText, Html.FROM_HTML_MODE_LEGACY);
                     } else {
                         responseString = Html.fromHtml(responseText);
                     }
-                    if(result) {
+                    if (result) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -212,8 +210,8 @@ public class DetailLearnActivity extends AppCompatActivity {
         });
     }
 
-    private void showProgressDialog(){
-        if(progressDialog==null){
+    private void showProgressDialog() {
+        if (progressDialog == null) {
             progressDialog = new ProgressDialog(DetailLearnActivity.this);
             progressDialog.setMessage("正在加载...");
             progressDialog.setCanceledOnTouchOutside(false);
@@ -225,30 +223,66 @@ public class DetailLearnActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void colseProgressDialog(){
-        if(progressDialog!=null){
+
+    private void colseProgressDialog() {
+        if (progressDialog != null) {
             progressDialog.dismiss();
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        //Log.d(TAG, "onResume");
         exoPlayerManager.onResume();
+        new Thread(new MyThread()).start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //Log.d(TAG, "onPause");
         exoPlayerManager.onPause();
     }
-
 
     @Override
     protected void onDestroy() {
         exoPlayerManager.onDestroy();
         super.onDestroy();
+        SharedPreferences spf = PreferenceManager.
+                getDefaultSharedPreferences(getApplicationContext());
+        float progress = spf.getFloat("PROGRESS", 0.0f);
+
+        float current = (float)(time*100/totalTime[position]);
+
+        //Log.d("wdl", "onDestroy: "+progress+" "+current);
+        if(progress<current)
+            updProgress();
+    }
+
+    private void updProgress() {
+        SharedPreferences spf = PreferenceManager.
+                getDefaultSharedPreferences(getApplicationContext());
+        String username = spf.getString("USERNAME", "");
+        String url = URL.HTTP_URL_UPD_PRO+username+"&chapter="+position+
+                "&percent="+(float)(time*100/totalTime[position]);
+        Log.d("wdl", "updProgress: "+url);
+        HttpUtil.sendOkHttpRequest(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("wdl", "update progress success");
+                SharedPreferences.Editor sprf = PreferenceManager.
+                        getDefaultSharedPreferences(getApplicationContext()).edit();
+                sprf.putFloat("PROGRESS",(float)(time*100/totalTime[position]));
+                sprf.apply();
+            }
+        });
     }
 
     @Override
@@ -266,7 +300,36 @@ public class DetailLearnActivity extends AppCompatActivity {
             intent.putExtra("currPosition", exoPlayerManager.getCurrentPosition());
             setResult(RESULT_OK, intent);
             ActivityCompat.finishAfterTransition(this);
+            finish();
         }
 
+    }
+
+    @SuppressLint("HandlerLeak")
+    final Handler handler = new Handler() {          // handle
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    time++;
+                    break;
+                default:
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    public class MyThread implements Runnable {      // thread
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(1000);     // sleep 1000ms
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 }
