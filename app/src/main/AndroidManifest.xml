@@ -81,6 +81,7 @@
         <activity android:name=".LookNoteActivity"/>
         <activity android:name=".LearnProgressActivity"/>
         <activity android:name=".draw.YouDrawIGuessActivity"/>
+        <activity android:name=".BannerWebActivity"/>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@ import android.widget.Button;
 
 import com.example.wudelin.cstudy.R;
 
-public class YouDrawIGuessActivity extends Activity {
+public class YouDrawIGuessActivity extends AppCompatActivity {
     private static DrawGameView drawGameView;
 
     private int whichColor = 0;
@@ -32,6 +32,7 @@ public class YouDrawIGuessActivity extends Activity {
     private Button clean, scanle, hongse;
     public YouDrawIGuessActivity() {
     }
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +48,13 @@ public class YouDrawIGuessActivity extends Activity {
         hongse =  findViewById(R.id.hongse);
         scanle =  findViewById(R.id.scanle);
 
-        /*Toolbar toolbar = findViewById(R.id.toolbar_xml);
+        Toolbar toolbar = findViewById(R.id.toolbar_xml);
         setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
             actionBar.setTitle("Draw");
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
+        }
         scanle.setOnClickListener(new OnClickListener() {
 
             @Override

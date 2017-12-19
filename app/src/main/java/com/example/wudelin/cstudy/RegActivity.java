@@ -1,5 +1,6 @@
 package com.example.wudelin.cstudy;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -34,7 +35,7 @@ public class RegActivity extends AppCompatActivity {
     private EditText edRegUsername;
     private EditText edRegPassword;
     private Button regBtn;
-
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,7 @@ public class RegActivity extends AppCompatActivity {
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showProgressDialog();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -69,6 +71,13 @@ public class RegActivity extends AppCompatActivity {
                                     Log.d("wdl", "注册成功");
                                 }
                             });
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    colseProgressDialog();
+                                    Toast.makeText(RegActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             finish();
                         } catch (final HyphenateException e) {
                             runOnUiThread(new Runnable() {
@@ -84,6 +93,7 @@ public class RegActivity extends AppCompatActivity {
                                     } else {
                                         Toast.makeText(getApplicationContext(), "注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
+                                    colseProgressDialog();
                                 }
                             });
 
@@ -93,6 +103,25 @@ public class RegActivity extends AppCompatActivity {
             }
         });
     }
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(RegActivity.this);
+            progressDialog.setMessage("正在注册...");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    private void colseProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
 
     //返回键的监听事件
     @Override

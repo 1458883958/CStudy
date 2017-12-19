@@ -30,15 +30,9 @@ import com.example.wudelin.cstudy.db.Content;
 import com.example.wudelin.cstudy.util.DataSource;
 import com.example.wudelin.cstudy.util.HttpUtil;
 import com.example.wudelin.cstudy.util.URL;
-import com.example.wudelin.cstudy.util.Utility;
-import com.oragee.banners.BannerView;
-
-import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import chuangyuan.ycj.videolibrary.listener.LoadModelType;
 import chuangyuan.ycj.videolibrary.listener.OnGestureBrightnessListener;

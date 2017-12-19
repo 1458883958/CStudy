@@ -35,7 +35,7 @@ public class NoteListActivity extends AppCompatActivity {
     private List<Diary> mDiaryList;
     private NoteAdapter noteAdapter;
     private RecyclerView recyclerView;
-    private SearchView searchView;
+    //private SearchView searchView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,19 +48,7 @@ public class NoteListActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         inits();
-        searchView = findViewById(R.id.search_text);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return true;
-            }
-        });
         recyclerView = findViewById(R.id.recycler_view_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         noteAdapter = new NoteAdapter(mNoteList);
